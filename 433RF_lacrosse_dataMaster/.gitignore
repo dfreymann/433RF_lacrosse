@@ -1,0 +1,9 @@
+**/target
+**/.vscode
+
+# compiled files
+*.bin
+
+# access information
+*tokens.h
+
