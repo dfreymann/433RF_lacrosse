@@ -1,3 +1,8 @@
+/******************************************************/
+//       THIS IS A GENERATED FILE - DO NOT EDIT       //
+/******************************************************/
+
+#line 1 "/Users/freymann/Dropbox/Electronics/_CODE/PlatformIO/433RF_lacrosse/433RF_lacrosse_dataMaster/src/433DataMasterUbidotsDisplay-Testing.ino"
 // dmf-photon-6-DisplayUbidots
 // dmf 12.4.15+
 //
@@ -32,6 +37,13 @@
 #include "HttpClient.h"                   // https://github.com/nmattisson/HttpClient
 // note that Wire is included in application.h
 #include "application.h"                  // Particle default
+void setup(void);
+void loop(void);
+int uploadValue (String variableId, float uploadValue);
+float truncateFloat(float theValue);
+void setDataFlag();
+void testdrawline();
+#line 35 "/Users/freymann/Dropbox/Electronics/_CODE/PlatformIO/433RF_lacrosse/433RF_lacrosse_dataMaster/src/433DataMasterUbidotsDisplay-Testing.ino"
 
 // ============= Ubidots Defines =======================
 

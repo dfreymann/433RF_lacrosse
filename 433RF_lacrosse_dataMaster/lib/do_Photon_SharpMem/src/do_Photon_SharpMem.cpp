@@ -102,25 +102,25 @@ void Adafruit_SharpMem::sendbyte(uint8_t data)
   {
     // Make sure clock starts low
     //digitalWrite(_clk, LOW);
-    //*clkport &= ~clkpinmask;
+    // *clkport &= ~clkpinmask;
     PIN_MAP[_clk].gpio_peripheral->BRR = PIN_MAP[_clk].gpio_pin;
     if (data & 0x80)
       //digitalWrite(_mosi, HIGH);
-      //*dataport |=  datapinmask;
+      // *dataport |=  datapinmask;
       PIN_MAP[_mosi].gpio_peripheral->BSRR = PIN_MAP[_mosi].gpio_pin;
     else
       //digitalWrite(_mosi, LOW);
-      //*dataport &= ~datapinmask;
+      // *dataport &= ~datapinmask;
       PIN_MAP[_mosi].gpio_peripheral->BRR = PIN_MAP[_mosi].gpio_pin;
     // Clock is active high
     //digitalWrite(_clk, HIGH);
-    //*clkport |=  clkpinmask;
+    // *clkport |=  clkpinmask;
     PIN_MAP[_clk].gpio_peripheral->BSRR = PIN_MAP[_clk].gpio_pin;
     data <<= 1;
   }
   // Make sure clock ends low
   //digitalWrite(_clk, LOW);
-  //*clkport &= ~clkpinmask;
+  // *clkport &= ~clkpinmask;
   PIN_MAP[_clk].gpio_peripheral->BRR = PIN_MAP[_clk].gpio_pin;
 */
 }
@@ -137,26 +137,26 @@ void Adafruit_SharpMem::sendbyteLSB(uint8_t data)
   {
     // Make sure clock starts low
     //digitalWrite(_clk, LOW);
-    //*clkport &= ~clkpinmask;
+    // *clkport &= ~clkpinmask;
     PIN_MAP[_clk].gpio_peripheral->BRR = PIN_MAP[_clk].gpio_pin;
     if (data & 0x01)
       //digitalWrite(_mosi, HIGH);
-      //*dataport |=  datapinmask;
+      // *dataport |=  datapinmask;
       PIN_MAP[_mosi].gpio_peripheral->BSRR = PIN_MAP[_mosi].gpio_pin;
     else
       //digitalWrite(_mosi, LOW);
-      //*dataport &= ~datapinmask;
+      // *dataport &= ~datapinmask;
       PIN_MAP[_mosi].gpio_peripheral->BRR = PIN_MAP[_mosi].gpio_pin;
     // Clock is active high
     //digitalWrite(_clk, HIGH);
-    //*clkport |=  clkpinmask;
+    // *clkport |=  clkpinmask;
 	// DELAY HERE??  Data needs to be setup 380ns before clk
     PIN_MAP[_clk].gpio_peripheral->BSRR = PIN_MAP[_clk].gpio_pin;
     data >>= 1;
   }
   // Make sure clock ends low
   //digitalWrite(_clk, LOW);
-  //*clkport &= ~clkpinmask;
+  // *clkport &= ~clkpinmask;
   PIN_MAP[_clk].gpio_peripheral->BRR = PIN_MAP[_clk].gpio_pin;
 
 */
