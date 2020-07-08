@@ -182,6 +182,8 @@ unsigned int staleInterval = 3600000;   // 1 hour
 
 void setup(void) {
 
+    Serial.begin(9600);
+
     // I2C configuration for communication with Slave
     Wire.begin();
 
@@ -205,6 +207,10 @@ void setup(void) {
     SPI.setDataMode(SPI_MODE0);
     SPI.setClockDivider(SPI_CLOCK_DIV16);
 
+    #ifdef doDEBUG
+        Serial.println("hello, about to display");
+    #endif
+
     // Initialize the hardware ports since cannot be done in class instantation above
     display.init();
     // start & clear the display
@@ -214,7 +220,6 @@ void setup(void) {
     testdrawline();
 
     #ifdef doDEBUG
-        Serial.begin(9600);
         Serial.println("\nI2C input from slave ");
         // I'm alive flasher
         pinMode(D7, OUTPUT);
@@ -237,6 +242,10 @@ void loop(void) {
     String outputTemperature;
     String outputHumidity;
 
+    #ifdef doDEBUG
+        Serial.println("in loop");
+    #endif
+
     //  loop logic -
     //  1) wait for I2C interrupt to signal data available
     //  2) new measurement available
@@ -256,6 +265,10 @@ void loop(void) {
 
     // respond to new data (flagged by ISR when I2C interrupt pulled low)
     if (dataIsAvailable){
+
+        #ifdef doDEBUG
+            Serial.println("dataIsAvailable");
+        #endif
 
         // Apparently, this always returns TRUE; (future) If needed,
         // a failed request (bad data) can be detected as all 'FFFF's (HIGH)
