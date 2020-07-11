@@ -3,6 +3,9 @@
 //
 // 6.3.16 - currently configured on dmf-photon-6
 //
+// 7.8.20 Compiles in Particle Workbench. 
+// 7.11.10 However, now have to migrate to UBIDOTS STEM using the Ubidots.h library. 
+//
 // dmf 5.15.16 code revised for I2C 'display' master / '433 receiver' slave configuration
 //
 // Request LaCrosse 433 temp/humidity data from ExtraCore slave using I2c, display locally
@@ -23,6 +26,10 @@
 
 // comment out for normal build
 #define doDEBUG
+
+// 7.10.20 
+#include "Ubidots.h"
+#include "ubidots_tokens.h"
 
 // libraries (must be local and must be included in project folder)
 #include "do_Photon_mfGFX.h"              // modified from Adafruit_mfGFX
@@ -46,7 +53,6 @@
 // #define TOKEN "34WGjY1Q703dFW4eNQaJoDrBMKXHKF9EzWd7XiTbRvU0jcS59QxHnrEesMrX"
 // 1.8.20 updated ubidots token - 
 #define TOKEN "A1E-aS8AZa3WTRuZFh22Lkro5FVT529bVL"
-
 
 // Ubidots returns '200' for a good request; returns '201' for good send.
 # define GOODRESPONSE 201
@@ -166,11 +172,14 @@ unsigned int staleInterval = 3600000;   // 1 hour
 
 // ============ End Flow Control Variables ==========
 
+// 7.10.20 Ubidots migration
+Ubidots ubidots(UBIDOTS_TOKEN, UBI_EDUCATIONAL, UBI_TCP); 
+
 // ============ Setup () and Loop () =================
 
 void setup(void) {
 
-    Serial.begin(9600);
+    Serial.begin(115200);
 
     // I2C configuration for communication with Slave
     Wire.begin();
@@ -308,15 +317,25 @@ void loop(void) {
                     #endif
 
                     // Send the measurements to Ubidots...
-                    uploadValue (VARIABLE_IDTEMP, Temperature);
-                    uploadValue (VARIABLE_IDHUMI, Humidity);
-                    uploadValue (VARIABLE_IDDEWP, Dewpoint);
+//                  uploadValue (VARIABLE_IDTEMP, Temperature);
+//                  uploadValue (VARIABLE_IDHUMI, Humidity);
+//                  uploadValue (VARIABLE_IDDEWP, Dewpoint);
 
-                    // (future) can test value of int uploadValue() == GOODRESPONSE
-                    // Ubidots returns int response.status = 201 for good upload
+                    // 7.10.20 Ubidots migration
+                    ubidots.add(VARIABLE_TEMPERATURE, Temperature);
+                    ubidots.add(VARIABLE_HUMIDITY, Humidity);
+                    ubidots.add(VARIABLE_DEWPOINT, Dewpoint);
 
+                    bool bufferSent = false;
+                    bufferSent = ubidots.send(UBIDOTS_DEVICE); 
+
+                    if (bufferSent) {
+                        Serial.println("Values sent by the device");
+                    }
+                    
                     // reset request timer
                     timeElapsed = 0;
+
                 }
 
                 // truncate to 1 significant digit so that new value test is stable
